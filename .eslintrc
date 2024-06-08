@@ -24,7 +24,6 @@
       "error",
       {
         "singleQuote": true,
-        "endOfLine": "all",
         "trailingComma": "es5",
         "bracketSpacing": true,
         "tabWidth": 2,
