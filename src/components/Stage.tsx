@@ -4,15 +4,15 @@ import Cell from './Cell';
 type ShapeType = keyof typeof SHAPES;
 
 type StageType = {
-  stage: Array<Array<ShapeType>>;
+  stage: [ShapeType, string][][];
 };
 
 const Stage = ({ stage }: StageType) => (
   <div className="stageComponent">
-    {
+    {stage.map((row) =>
       // eslint-disable-next-line react/no-array-index-key
-      stage.map((row) => row.map((cell, x) => <Cell key={x} type={0} />))
-    }
+      row.map((cell, x) => <Cell key={x} type={cell[0]} />)
+    )}
   </div>
 );
 

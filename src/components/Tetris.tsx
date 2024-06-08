@@ -20,10 +20,11 @@ const Tetris = () => {
   const { stage, setStage } = useStage(player);
 
   console.log('rendering');
+  console.log(stage);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const movePlayer = (dir: any) => {
-    updatePlayer({ x: dir, y: 0 });
+    updatePlayer({ x: dir, y: 0, collided: false });
   };
 
   const startGame = () => {
