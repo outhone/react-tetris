@@ -42,13 +42,13 @@ const Tetris = () => {
 
   const move = (e: KeyboardEvent<HTMLDivElement>) => {
     if (!gameOver) {
-      if (e.key === 'Arrow Left') {
+      if (e.key === 'ArrowLeft') {
         movePlayer(-1);
-      } else if (e.key === 'Arrow Right') {
+      } else if (e.key === 'ArrowRight') {
         movePlayer(1);
-      } else if (e.key === 'Arrow Down') {
+      } else if (e.key === 'ArrowDown') {
         dropPlayer();
-      } else if (e.key === 'Arrow Up') {
+      } else if (e.key === 'ArrowUp') {
         console.log('Arrow up');
       }
     }
