@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { KeyboardEvent } from 'react';
 
-import { createStage } from '../utils/gameHelpers';
+import { createStage, checkCollision } from '../utils/gameHelpers';
 
 // Components
 import Stage from './Stage';
@@ -13,18 +13,21 @@ import usePlayer from '../hooks/usePlayer';
 import useStage from '../hooks/useStage';
 
 const Tetris = () => {
-  // const [dropTime, setDropTime] = useState(null);
+  const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
   const { player, updatePlayer, resetPlayer } = usePlayer();
-  const { stage, setStage } = useStage(player);
+  const { stage, setStage } = useStage(player, resetPlayer);
 
   console.log('rendering');
   console.log(stage);
+  console.log(dropTime);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const movePlayer = (dir: any) => {
-    updatePlayer({ x: dir, y: 0, collided: false });
+    if (!checkCollision(player, stage, { x: dir, y: 0 })) {
+      updatePlayer({ x: dir, y: 0, collided: false });
+    }
   };
 
   const startGame = () => {
@@ -34,7 +37,16 @@ const Tetris = () => {
   };
 
   const drop = () => {
-    updatePlayer({ x: 0, y: 1, collided: false });
+    if (!checkCollision(player, stage, { x: 0, y: 1 })) {
+      updatePlayer({ x: 0, y: 1, collided: false });
+    } else {
+      if (player.pos.y < 1) {
+        console.log('Game Over!!!!!');
+        setGameOver(true);
+        setDropTime(null);
+      }
+      updatePlayer({ x: 0, y: 0, collided: true });
+    }
   };
 
   const dropPlayer = () => {
