@@ -4,6 +4,7 @@ import { createStage } from '../utils/gameHelpers';
 // Components
 import Stage from './Stage';
 import Display from './Display';
+import StartButton from './StartButton';
 // import StartButton from './StartButton';
 
 const Tetris = () => (
@@ -16,7 +17,7 @@ const Tetris = () => (
         <Display text="Score" />
         <Display text="Rows" />
         <Display text="Level" />
-        {/* <StartButton /> */}
+        <StartButton callback={() => {}} />
       </aside>
     </div>
   </div>
