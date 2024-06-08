@@ -8,6 +8,7 @@
     "airbnb",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
     "prettier", // prettier
   ],
   "parser": "@typescript-eslint/parser",
@@ -41,6 +42,15 @@
         "tsx": "never",
       },
     ],
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function",
+        "unnamedComponents": "arrow-function",
+      },
+    ],
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
   },
   "settings": {
     "import/resolver": {
