@@ -18,6 +18,7 @@ import usePlayer from '../hooks/usePlayer';
 import useStage from '../hooks/useStage';
 import useInterval from '../hooks/useInterval';
 import useGameStatus from '../hooks/useGameStatus';
+import TransitionsModal from './mui/TransitionsModal';
 
 const Tetris = () => {
   const [dropTime, setDropTime] = useState<null | number>(null);
@@ -92,6 +93,7 @@ const Tetris = () => {
   };
 
   const move = (e: KeyboardEvent<HTMLDivElement>) => {
+    e.preventDefault();
     if (!gameOver && !pausedGame) {
       if (e.key === 'ArrowLeft') {
         moveLeftRight(-1);
@@ -102,7 +104,6 @@ const Tetris = () => {
       } else if (e.key === 'ArrowUp') {
         playerRotate(stage, 1);
       } else if (e.key === ' ' || e.key === 'Spacebar') {
-        e.preventDefault();
         setDropTime(null);
         dropToBottom();
       }
@@ -141,6 +142,13 @@ const Tetris = () => {
             <PauseButton callback={onPause} status={pausedGame} />
           )}
           {gameOver && <Display text="Game Over" />}
+          <TransitionsModal
+            btnText="How to Play"
+            title="How to Play Tetris"
+            description={`Use your computer's arrow keys to move the block LEFT, RIGHT, or DOWN. 
+            Use the UP arrow key to rotate the block. 
+            Use the SPACE BAR key to instantly drop the block down.`}
+          />
         </aside>
       </div>
     </div>

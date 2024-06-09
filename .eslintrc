@@ -21,6 +21,7 @@
   },
   "plugins": ["@typescript-eslint", "react-hooks", "prettier"], // prettier
   "rules": {
+    "import/no-extraneous-dependencies": ["error", { "packageDir": "./" }],
     "prettier/prettier": [
       "error",
       {
