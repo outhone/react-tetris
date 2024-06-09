@@ -11,17 +11,17 @@ import StartButton from './StartButton';
 // Custom Hooks
 import usePlayer from '../hooks/usePlayer';
 import useStage from '../hooks/useStage';
+import useInterval from '../hooks/useInterval';
+import useGameStatus from '../hooks/useGameStatus';
 
 const Tetris = () => {
-  const [dropTime, setDropTime] = useState(null);
+  const [dropTime, setDropTime] = useState<null | number>(null);
   const [gameOver, setGameOver] = useState(false);
 
   const { player, playerRotate, updatePlayer, resetPlayer } = usePlayer();
-  const { stage, setStage } = useStage(player, resetPlayer);
-
-  console.log('rendering');
-  console.log(stage);
-  console.log(dropTime);
+  const { stage, setStage, rowsCleared } = useStage(player, resetPlayer);
+  const { score, setScore, rows, setRows, level, setLevel } =
+    useGameStatus(rowsCleared);
 
   const moveLeftRight = (dir: number) => {
     if (!checkCollision(player, stage, { x: dir, y: 0 })) {
@@ -31,16 +31,25 @@ const Tetris = () => {
 
   const startGame = () => {
     setStage(createStage());
+    setDropTime(1000);
     resetPlayer();
+    setScore(0);
+    setRows(0);
+    setLevel(0);
     setGameOver(false);
   };
 
   const drop = () => {
+    // increase level after 10 cleared rows
+    if (rows > (level + 1) * 10) {
+      setLevel((prev) => prev + 1);
+      setDropTime(1000 / (level + 1) + 200);
+    }
+
     if (!checkCollision(player, stage, { x: 0, y: 1 })) {
       updatePlayer({ x: 0, y: 1, collided: false });
     } else {
       if (player.pos.y < 1) {
-        console.log('Game Over!!!!!');
         setGameOver(true);
         setDropTime(null);
       }
@@ -48,7 +57,16 @@ const Tetris = () => {
     }
   };
 
+  const keyUp = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (!gameOver) {
+      if (e.key === 'ArrowDown') {
+        setDropTime(1000 / (level + 1) + 200);
+      }
+    }
+  };
+
   const dropPlayer = () => {
+    setDropTime(null);
     drop();
   };
 
@@ -66,19 +84,24 @@ const Tetris = () => {
     }
   };
 
+  useInterval(() => {
+    drop();
+  }, dropTime);
+
   return (
     <div
       className="tetrisWrapper"
       role="button"
       tabIndex={0}
+      onKeyUp={(e) => keyUp(e)}
       onKeyDown={(e) => move(e)}
     >
       <div className="tetris">
         <Stage stage={stage} />
         <aside>
-          <Display text="Score" />
-          <Display text="Rows" />
-          <Display text="Level" />
+          <Display text={`Score: ${score}`} />
+          <Display text={`Rows: ${rows}`} />
+          <Display text={`Level: ${level}`} />
           <StartButton callback={startGame} />
           {gameOver && <Display text="Game Over" />}
         </aside>
