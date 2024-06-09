@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import type { KeyboardEvent } from 'react';
 
-import { createStage, checkCollision } from '../utils/gameHelpers';
+import {
+  createStage,
+  checkCollision,
+  STAGE_HEIGHT,
+} from '../utils/gameHelpers';
 
 // Components
 import Stage from './Stage';
@@ -73,6 +77,20 @@ const Tetris = () => {
     drop();
   };
 
+  const dropToBottom = () => {
+    for (let i = 1; i < STAGE_HEIGHT; i += 1) {
+      if (!checkCollision(player, stage, { x: 0, y: i })) {
+        // Loop until collision happens to get the biggest jump down the shape can take
+      } else {
+        // Jump to the bottom of the stage
+        // Set collide to true if you don't want users to have chance to rotate or move the shape after the absolute drop
+        updatePlayer({ x: 0, y: i - 1, collided: false });
+        setDropTime(1000 / (level + 1) + 200);
+        break;
+      }
+    }
+  };
+
   const move = (e: KeyboardEvent<HTMLDivElement>) => {
     if (!gameOver && !pausedGame) {
       if (e.key === 'ArrowLeft') {
@@ -83,6 +101,10 @@ const Tetris = () => {
         dropPlayer();
       } else if (e.key === 'ArrowUp') {
         playerRotate(stage, 1);
+      } else if (e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        setDropTime(null);
+        dropToBottom();
       }
     }
   };
