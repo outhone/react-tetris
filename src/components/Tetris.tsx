@@ -7,6 +7,7 @@ import { createStage, checkCollision } from '../utils/gameHelpers';
 import Stage from './Stage';
 import Display from './Display';
 import StartButton from './StartButton';
+import PauseButton from './PauseButton';
 
 // Custom Hooks
 import usePlayer from '../hooks/usePlayer';
@@ -17,6 +18,7 @@ import useGameStatus from '../hooks/useGameStatus';
 const Tetris = () => {
   const [dropTime, setDropTime] = useState<null | number>(null);
   const [gameOver, setGameOver] = useState(false);
+  const [pausedGame, setPausedGame] = useState(false);
 
   const { player, playerRotate, updatePlayer, resetPlayer } = usePlayer();
   const { stage, setStage, rowsCleared } = useStage(player, resetPlayer);
@@ -37,6 +39,7 @@ const Tetris = () => {
     setRows(0);
     setLevel(0);
     setGameOver(false);
+    setPausedGame(false);
   };
 
   const drop = () => {
@@ -58,7 +61,7 @@ const Tetris = () => {
   };
 
   const keyUp = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (!gameOver) {
+    if (!gameOver && !pausedGame) {
       if (e.key === 'ArrowDown') {
         setDropTime(1000 / (level + 1) + 200);
       }
@@ -71,7 +74,7 @@ const Tetris = () => {
   };
 
   const move = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (!gameOver) {
+    if (!gameOver && !pausedGame) {
       if (e.key === 'ArrowLeft') {
         moveLeftRight(-1);
       } else if (e.key === 'ArrowRight') {
@@ -88,6 +91,15 @@ const Tetris = () => {
     drop();
   }, dropTime);
 
+  const onPause = () => {
+    if (pausedGame) {
+      setDropTime(1000 / (level + 1) + 200);
+    } else {
+      setDropTime(null);
+    }
+    setPausedGame(!pausedGame);
+  };
+
   return (
     <div
       className="tetrisWrapper"
@@ -103,6 +115,9 @@ const Tetris = () => {
           <Display text={`Rows: ${rows}`} />
           <Display text={`Level: ${level}`} />
           <StartButton callback={startGame} />
+          {!gameOver && player.shape.length > 1 && (
+            <PauseButton callback={onPause} status={pausedGame} />
+          )}
           {gameOver && <Display text="Game Over" />}
         </aside>
       </div>
