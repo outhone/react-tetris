@@ -16,15 +16,14 @@ const Tetris = () => {
   const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
-  const { player, updatePlayer, resetPlayer } = usePlayer();
+  const { player, playerRotate, updatePlayer, resetPlayer } = usePlayer();
   const { stage, setStage } = useStage(player, resetPlayer);
 
   console.log('rendering');
   console.log(stage);
   console.log(dropTime);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const movePlayer = (dir: any) => {
+  const moveLeftRight = (dir: number) => {
     if (!checkCollision(player, stage, { x: dir, y: 0 })) {
       updatePlayer({ x: dir, y: 0, collided: false });
     }
@@ -56,13 +55,13 @@ const Tetris = () => {
   const move = (e: KeyboardEvent<HTMLDivElement>) => {
     if (!gameOver) {
       if (e.key === 'ArrowLeft') {
-        movePlayer(-1);
+        moveLeftRight(-1);
       } else if (e.key === 'ArrowRight') {
-        movePlayer(1);
+        moveLeftRight(1);
       } else if (e.key === 'ArrowDown') {
         dropPlayer();
       } else if (e.key === 'ArrowUp') {
-        console.log('Arrow up');
+        playerRotate(stage, 1);
       }
     }
   };
