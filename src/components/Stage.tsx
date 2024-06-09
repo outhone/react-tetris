@@ -1,11 +1,5 @@
-import { SHAPES } from '../utils/shapes';
 import Cell from './Cell';
-
-type ShapeType = keyof typeof SHAPES;
-
-type StageType = {
-  stage: [ShapeType, string][][];
-};
+import type { StageType } from './types';
 
 const Stage = ({ stage }: StageType) => (
   <div className="stageComponent">

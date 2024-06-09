@@ -1,14 +1,5 @@
 import { SHAPES } from '../utils/shapes';
-
-type ShapeType = keyof typeof SHAPES;
-
-type CellType = {
-  type: ShapeType;
-};
-
-interface StyledCellType extends CellType {
-  color: string;
-}
+import type { StyledCellType, CellType } from './types';
 
 const StyledCell = ({ type, color }: StyledCellType) => (
   <div
