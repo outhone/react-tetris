@@ -1,4 +1,4 @@
-import { SHAPES } from '../utils/shapes';
+import { SHAPES } from '../../utils/shapes';
 
 export type ShapeType = keyof typeof SHAPES;
 

@@ -3,7 +3,7 @@ type StartButtonType = {
 };
 
 const StartButton = ({ callback }: StartButtonType) => (
-  <button className="startBtn" onClick={callback} type="button">
+  <button className="gameBtn" onClick={callback} type="button">
     Start Game
   </button>
 );

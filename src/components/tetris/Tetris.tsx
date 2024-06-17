@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import type { KeyboardEvent } from 'react';
+import Button from '@mui/material/Button';
+import { useDispatch } from 'react-redux';
+import { goHome } from '../../pageReducer';
 
 import {
   createStage,
   checkCollision,
   STAGE_HEIGHT,
-} from '../utils/gameHelpers';
+} from '../../utils/gameHelpers';
 
 // Components
 import Stage from './Stage';
@@ -14,13 +17,15 @@ import StartButton from './StartButton';
 import PauseButton from './PauseButton';
 
 // Custom Hooks
-import usePlayer from '../hooks/usePlayer';
-import useStage from '../hooks/useStage';
-import useInterval from '../hooks/useInterval';
-import useGameStatus from '../hooks/useGameStatus';
-import TransitionsModal from './mui/TransitionsModal';
+import usePlayer from '../../hooks/usePlayer';
+import useStage from '../../hooks/useStage';
+import useInterval from '../../hooks/useInterval';
+import useGameStatus from '../../hooks/useGameStatus';
+import TransitionsModal from '../common/TransitionsModal';
 
 const Tetris = () => {
+  const dispatch = useDispatch();
+
   const [dropTime, setDropTime] = useState<null | number>(null);
   const [gameOver, setGameOver] = useState(false);
   const [pausedGame, setPausedGame] = useState(false);
@@ -149,6 +154,7 @@ const Tetris = () => {
             Use the UP arrow key to rotate the block. 
             Use the SPACE BAR key to instantly drop the block down.`}
           />
+          <Button onClick={() => dispatch(goHome())}>Go Home</Button>
         </aside>
       </div>
     </div>

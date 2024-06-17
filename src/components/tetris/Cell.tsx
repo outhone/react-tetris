@@ -1,4 +1,4 @@
-import { SHAPES } from '../utils/shapes';
+import { SHAPES } from '../../utils/shapes';
 import type { StyledCellType, CellType } from './types';
 
 const StyledCell = ({ type, color }: StyledCellType) => (
