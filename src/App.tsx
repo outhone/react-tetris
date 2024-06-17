@@ -4,7 +4,7 @@
 import { lazy, Suspense } from 'react';
 import './App.css';
 import { useViewContext } from './context/ViewProvider';
-import LoadingIndicator from './components/common/Loading';
+import LoadingIndicator from './components/common/LoadingIndicator';
 
 const Home = lazy(() => import('./components/home/Home'));
 const Tetris = lazy(() => import('./components/tetris/Tetris'));
