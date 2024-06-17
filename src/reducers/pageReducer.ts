@@ -10,7 +10,6 @@ const initialState: PageState = {
 
 export const pageSlice = createSlice({
   name: 'page',
-  // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
     goHome: (state) => ({ ...state, view: 'home' }),
