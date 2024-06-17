@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import GameButton from '../common/GameButton';
 import Highscore from './Highscore';
-import { goSinglePlayer } from '../../reducers/pageReducer';
+import { goSinglePlayer } from '../../pageReducer';
 
 const Home = () => {
   const dispatch = useDispatch();

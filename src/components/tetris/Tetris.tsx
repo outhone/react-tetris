@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import Button from '@mui/material/Button';
 import { useDispatch } from 'react-redux';
-import { goHome } from '../../reducers/pageReducer';
+import { goHome } from '../../pageReducer';
 
 import {
   createStage,
