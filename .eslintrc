@@ -60,6 +60,7 @@
     ],
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
+    "no-shadow": "off",
   },
   "settings": {
     "import/resolver": {

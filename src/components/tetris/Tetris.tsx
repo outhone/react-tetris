@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import Button from '@mui/material/Button';
-import { useDispatch } from 'react-redux';
-import { goHome } from '../../pageReducer';
+// import { useDispatch } from 'react-redux';
+// import { goHome } from '../../pageReducer';
+import { useViewContext, ViewActionType } from '../../context/ViewProvider';
 
 import {
   createStage,
@@ -24,7 +25,8 @@ import useGameStatus from '../../hooks/useGameStatus';
 import TransitionsModal from '../common/TransitionsModal';
 
 const Tetris = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  const { dispatch } = useViewContext();
 
   const [dropTime, setDropTime] = useState<null | number>(null);
   const [gameOver, setGameOver] = useState(false);
@@ -154,7 +156,9 @@ const Tetris = () => {
             Use the UP arrow key to rotate the block. 
             Use the SPACE BAR key to instantly drop the block down.`}
           />
-          <Button onClick={() => dispatch(goHome())}>Go Home</Button>
+          <Button onClick={() => dispatch({ type: ViewActionType.SET_HOME })}>
+            Go Home
+          </Button>
         </aside>
       </div>
     </div>
