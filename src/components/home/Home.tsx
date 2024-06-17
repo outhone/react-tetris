@@ -9,7 +9,7 @@ const Home = () => {
   const { dispatch } = useViewContext();
 
   return (
-    <div className="tetrisWrapper text-white">
+    <div className="text-white">
       <Highscore />
       <div className="gameTypeBtnContainer">
         <GameButton

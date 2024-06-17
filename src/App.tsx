@@ -1,10 +1,13 @@
 // import { useSelector } from 'react-redux';
 // import type { RootState } from './store';
 
+import { lazy, Suspense } from 'react';
 import './App.css';
-import Home from './components/home/Home';
-import Tetris from './components/tetris/Tetris';
 import { useViewContext } from './context/ViewProvider';
+import LoadingIndicator from './components/common/Loading';
+
+const Home = lazy(() => import('./components/home/Home'));
+const Tetris = lazy(() => import('./components/tetris/Tetris'));
 
 const PAGES = {
   home: Home,
@@ -20,8 +23,10 @@ const App = () => {
   const Handler = PAGES[view] || Home;
 
   return (
-    <div className="App">
-      <Handler />
+    <div className="App tetrisWrapper">
+      <Suspense fallback={<LoadingIndicator />}>
+        <Handler />
+      </Suspense>
     </div>
   );
 };

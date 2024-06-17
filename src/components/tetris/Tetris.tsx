@@ -132,7 +132,6 @@ const Tetris = () => {
 
   return (
     <div
-      className="tetrisWrapper"
       role="button"
       tabIndex={0}
       onKeyUp={(e) => keyUp(e)}
