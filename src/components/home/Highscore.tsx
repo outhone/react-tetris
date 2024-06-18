@@ -1,7 +1,21 @@
+import { useState, useEffect } from 'react';
+
 const Highscore = () => {
+  const [highScores, setHighScores] = useState('');
+
   // Fetch highscore from database
+  useEffect(() => {
+    const fetchHighScores = async () => {
+      const data = await fetch('http://localhost:9000/testAPI');
+      const scores = await data.text();
+      setHighScores(scores);
+    };
+
+    fetchHighScores();
+  }, []);
+
   const highScoreData = [
-    { name: 'Coming Soon', score: 10000 },
+    { name: highScores, score: 10000 },
     { name: 'Coming Soon', score: 9000 },
     { name: 'Coming Soon', score: 8000 },
     { name: 'Coming Soon', score: 7000 },
