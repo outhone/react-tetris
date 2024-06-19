@@ -27,7 +27,9 @@ const Highscore = () => {
   useEffect(() => {
     const fetchHighScores = async () => {
       try {
-        const data = await fetch(`${process.env.REACT_APP_API_URL}/highscores`);
+        const data = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/highscores`
+        );
         const scores = await data.json();
         setHighScores(scores);
       } catch {
