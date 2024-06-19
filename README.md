@@ -3,6 +3,7 @@ Tetris using React and Typescript
 Follow basic logic for tetris: https://www.youtube.com/watch?v=ZGOaCxX8HIU
 
 Future Features:
+- Add Docker to spin up server and client
 - Add seperate eslint for server files
 - Add settings for additional custom shapes to be used
 - Allow starting at desired level

@@ -6,12 +6,19 @@ const Highscore = () => {
   // Fetch highscore from database
   useEffect(() => {
     const fetchHighScores = async () => {
-      const data = await fetch('http://localhost:9000/testAPI');
-      const scores = await data.text();
-      setHighScores(scores);
+      try {
+        const data = await fetch('http://localhost:9000/testAPI');
+        const scores = await data.text();
+        setHighScores(scores);
+      } catch {
+        setHighScores('High Scores Unavailable');
+      }
     };
-
-    fetchHighScores();
+    try {
+      fetchHighScores();
+    } catch {
+      setHighScores('High Scores Unavailable');
+    }
   }, []);
 
   const highScoreData = [
