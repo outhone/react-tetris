@@ -1,33 +1,45 @@
 import { useState, useEffect } from 'react';
 
-const Highscore = () => {
-  const [highScores, setHighScores] = useState('');
+type ScoreType = {
+  name: string;
+  score: number;
+};
 
-  // Fetch highscore from database
+type ScoresType = {
+  scores: ScoreType[];
+};
+
+const Score = ({ scores }: ScoresType) => (
+  <>
+    {scores.map((playerScore: ScoreType) => (
+      <tr key={`${playerScore.name}-${playerScore.score}`}>
+        <td>{playerScore.name}</td>
+        <td>{playerScore.score}</td>
+      </tr>
+    ))}
+  </>
+);
+
+const Highscore = () => {
+  const [highScores, setHighScores] = useState<ScoreType[] | null>(null);
+
+  // Fetch highscores from database, don't really need to use react query for this
   useEffect(() => {
     const fetchHighScores = async () => {
       try {
-        const data = await fetch('http://localhost:9000/testAPI');
-        const scores = await data.text();
+        const data = await fetch(`${process.env.REACT_APP_API_URL}/highscores`);
+        const scores = await data.json();
         setHighScores(scores);
       } catch {
-        setHighScores('High Scores Unavailable');
+        setHighScores(null);
       }
     };
     try {
       fetchHighScores();
     } catch {
-      setHighScores('High Scores Unavailable');
+      setHighScores(null);
     }
   }, []);
-
-  const highScoreData = [
-    { name: highScores, score: 10000 },
-    { name: 'Coming Soon', score: 9000 },
-    { name: 'Coming Soon', score: 8000 },
-    { name: 'Coming Soon', score: 7000 },
-    { name: 'Coming Soon', score: 6000 },
-  ];
 
   return (
     <>
@@ -38,12 +50,13 @@ const Highscore = () => {
             <th>Player</th>
             <th>Score</th>
           </tr>
-          {highScoreData.map((playerScore) => (
-            <tr key={`${playerScore.name}-${playerScore.score}`}>
-              <td>{playerScore.name}</td>
-              <td>{playerScore.score}</td>
+          {highScores ? (
+            <Score scores={highScores} />
+          ) : (
+            <tr>
+              <td>High Scores Unavailable</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </>
