@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import Button from '@mui/material/Button';
 // import { useDispatch } from 'react-redux';
@@ -22,7 +22,8 @@ import usePlayer from '../../hooks/usePlayer';
 import useStage from '../../hooks/useStage';
 import useInterval from '../../hooks/useInterval';
 import useGameStatus from '../../hooks/useGameStatus';
-import TransitionsModal from '../common/TransitionsModal';
+import TransitionsModal from '../common/TextTransitionsModal';
+import AddHighScoreModal from './AddHighScoreModal';
 
 const Tetris = () => {
   // const dispatch = useDispatch();
@@ -31,11 +32,36 @@ const Tetris = () => {
   const [dropTime, setDropTime] = useState<null | number>(null);
   const [gameOver, setGameOver] = useState(false);
   const [pausedGame, setPausedGame] = useState(false);
+  const [showHighScoreModal, setShowHighScoreModal] = useState(false);
 
   const { player, playerRotate, updatePlayer, resetPlayer } = usePlayer();
   const { stage, setStage, rowsCleared } = useStage(player, resetPlayer);
   const { score, setScore, rows, setRows, level, setLevel } =
     useGameStatus(rowsCleared);
+
+  // Fetch highscores from database, don't really need to use react query for this
+  useEffect(() => {
+    if (gameOver) {
+      const fetchMinScore = async () => {
+        try {
+          const data = await fetch(
+            `${process.env.REACT_APP_API_URL}/api/highscores/5`
+          );
+          const minScore = await data.json();
+          if (score > minScore) {
+            setShowHighScoreModal(true);
+          }
+        } catch {
+          // Log Error
+        }
+      };
+      try {
+        fetchMinScore();
+      } catch {
+        // Log Error
+      }
+    }
+  }, [gameOver]);
 
   const moveLeftRight = (dir: number) => {
     if (!checkCollision(player, stage, { x: dir, y: 0 })) {
@@ -100,19 +126,21 @@ const Tetris = () => {
   };
 
   const move = (e: KeyboardEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    if (!gameOver && !pausedGame) {
-      if (e.key === 'ArrowLeft') {
-        moveLeftRight(-1);
-      } else if (e.key === 'ArrowRight') {
-        moveLeftRight(1);
-      } else if (e.key === 'ArrowDown') {
-        dropPlayer();
-      } else if (e.key === 'ArrowUp') {
-        playerRotate(stage, 1);
-      } else if (e.key === ' ' || e.key === 'Spacebar') {
-        setDropTime(null);
-        dropToBottom();
+    if (!gameOver) {
+      e.preventDefault();
+      if (!gameOver && !pausedGame) {
+        if (e.key === 'ArrowLeft') {
+          moveLeftRight(-1);
+        } else if (e.key === 'ArrowRight') {
+          moveLeftRight(1);
+        } else if (e.key === 'ArrowDown') {
+          dropPlayer();
+        } else if (e.key === 'ArrowUp') {
+          playerRotate(stage, 1);
+        } else if (e.key === ' ' || e.key === 'Spacebar') {
+          setDropTime(null);
+          dropToBottom();
+        }
       }
     }
   };
@@ -148,6 +176,9 @@ const Tetris = () => {
             <PauseButton callback={onPause} status={pausedGame} />
           )}
           {gameOver && <Display text="Game Over" />}
+          {gameOver && showHighScoreModal && (
+            <AddHighScoreModal score={score} />
+          )}
           <TransitionsModal
             btnText="How to Play"
             title="How to Play Tetris"

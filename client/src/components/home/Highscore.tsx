@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-type ScoreType = {
+export type ScoreType = {
   name: string;
   score: number;
 };
@@ -52,32 +52,8 @@ const Highscore = () => {
     }
   }, []);
 
-  const addHighScore = async () => {
-    try {
-      const data = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/highscores`,
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            name: 'John',
-            score: 10000,
-          }),
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-          },
-        }
-      );
-      console.log(`Successful: ${data}`);
-    } catch {
-      console.log('error adding high score');
-    }
-  };
-
   return (
     <>
-      <button type="button" onClick={() => addHighScore()}>
-        Add High Score
-      </button>
       <h1 className="text-white">HighScore</h1>
       <table>
         <tbody>
