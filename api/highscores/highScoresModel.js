@@ -1,1 +1,0 @@
-// Prisma Model for Highscores

@@ -9,16 +9,25 @@ type ScoresType = {
   scores: ScoreType[];
 };
 
-const Score = ({ scores }: ScoresType) => (
-  <>
-    {scores.map((playerScore: ScoreType) => (
-      <tr key={`${playerScore.name}-${playerScore.score}`}>
-        <td>{playerScore.name}</td>
-        <td>{playerScore.score}</td>
+const Score = ({ scores }: ScoresType) => {
+  if (scores.length <= 0) {
+    return (
+      <tr>
+        <td colSpan={2}>Be the first to get a high score!</td>
       </tr>
-    ))}
-  </>
-);
+    );
+  }
+  return (
+    <>
+      {scores.map((playerScore: ScoreType) => (
+        <tr key={`${playerScore.name}-${playerScore.score}`}>
+          <td>{playerScore.name}</td>
+          <td>{playerScore.score}</td>
+        </tr>
+      ))}
+    </>
+  );
+};
 
 const Highscore = () => {
   const [highScores, setHighScores] = useState<ScoreType[] | null>(null);
@@ -43,8 +52,32 @@ const Highscore = () => {
     }
   }, []);
 
+  const addHighScore = async () => {
+    try {
+      const data = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/highscores`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            name: 'John',
+            score: 10000,
+          }),
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+          },
+        }
+      );
+      console.log(`Successful: ${data}`);
+    } catch {
+      console.log('error adding high score');
+    }
+  };
+
   return (
     <>
+      <button type="button" onClick={() => addHighScore()}>
+        Add High Score
+      </button>
       <h1 className="text-white">HighScore</h1>
       <table>
         <tbody>
@@ -56,7 +89,7 @@ const Highscore = () => {
             <Score scores={highScores} />
           ) : (
             <tr>
-              <td>High Scores Unavailable</td>
+              <td colSpan={2}>High Scores Unavailable</td>
             </tr>
           )}
         </tbody>
