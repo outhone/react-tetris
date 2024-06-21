@@ -12,5 +12,4 @@ Future Features:
 - Add Sentry logging
 
 Todos:
-- Fix build issues with Vercel
 - Clean up highscore code and optimize
