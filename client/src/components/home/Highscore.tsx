@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import LoadingIndicator from '../common/LoadingIndicator';
 
 export type ScoreType = {
   name: string;
@@ -31,6 +32,7 @@ const Score = ({ scores }: ScoresType) => {
 
 const Highscore = () => {
   const [highScores, setHighScores] = useState<ScoreType[] | null>(null);
+  const [loading, setLoading] = useState(true);
 
   // Fetch highscores from database, don't really need to use react query for this
   useEffect(() => {
@@ -43,6 +45,8 @@ const Highscore = () => {
         setHighScores(scores);
       } catch {
         setHighScores(null);
+      } finally {
+        setLoading(false);
       }
     };
     try {
@@ -65,7 +69,9 @@ const Highscore = () => {
             <Score scores={highScores} />
           ) : (
             <tr>
-              <td colSpan={2}>High Scores Unavailable</td>
+              <td colSpan={2}>
+                {loading ? <LoadingIndicator /> : 'High Scores Unavailable'}
+              </td>
             </tr>
           )}
         </tbody>
