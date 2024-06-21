@@ -9,6 +9,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const app = express();
+app.use(cors({ origin: [process.env.REACT_APP_API_URL] }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
