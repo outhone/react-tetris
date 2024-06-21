@@ -18,19 +18,19 @@ const style = {
   p: 4,
 };
 
-type TransitionsModalType = {
+type TextTransitionsModalType = {
   btnText: string;
   btnClassName?: string;
   title: string;
   description: string;
 };
 
-const TransitionsModal = ({
+const TextTransitionsModal = ({
   btnText,
   btnClassName,
   title,
   description,
-}: TransitionsModalType) => {
+}: TextTransitionsModalType) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -68,8 +68,8 @@ const TransitionsModal = ({
   );
 };
 
-TransitionsModal.defaultProps = {
+TextTransitionsModal.defaultProps = {
   btnClassName: '',
 };
 
-export default TransitionsModal;
+export default TextTransitionsModal;

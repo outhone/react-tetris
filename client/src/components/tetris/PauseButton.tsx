@@ -1,12 +1,15 @@
+import GameButton from '../common/GameButton';
+
 type PauseButtonType = {
   callback: () => void;
   status: boolean;
 };
 
 const PauseButton = ({ callback, status }: PauseButtonType) => (
-  <button className="startBtn" onClick={callback} type="button">
-    {status ? 'Resume Game' : 'Pause Game'}
-  </button>
+  <GameButton
+    callback={callback}
+    text={status ? 'Resume Game' : 'Pause Game'}
+  />
 );
 
 export default PauseButton;
