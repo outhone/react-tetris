@@ -1,6 +1,8 @@
 {
   "version": 2,
-  "installCommand": "npm install --legacy-peer-deps",
+  "settings": {
+    "installCommand": "npm install --legacy-peer-deps"
+  },
   "builds": [
     {
       "src": "app.js",
