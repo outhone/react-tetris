@@ -49,11 +49,7 @@ const Highscore = () => {
         setLoading(false);
       }
     };
-    try {
-      fetchHighScores();
-    } catch {
-      setHighScores(null);
-    }
+    fetchHighScores();
   }, []);
 
   return (

@@ -15,7 +15,7 @@ const Home = () => {
         <GameButton
           // callback={() => dispatch(goSinglePlayer())}
           callback={() => dispatch({ type: ViewActionType.SET_SINGLE_GAME })}
-          text="Single Player"
+          text="Play Game"
         />
         {/*
       <GameButton

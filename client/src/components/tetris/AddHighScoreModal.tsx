@@ -7,6 +7,7 @@ import {
   Stack,
   TextField,
   Button,
+  Alert,
 } from '@mui/material';
 import { useViewContext, ViewActionType } from '../../context/ViewProvider';
 
@@ -23,46 +24,45 @@ const style = {
 };
 
 const AddHighScoreModal = ({ score }: { score: number }) => {
+  const { dispatch } = useViewContext();
   const [showModal, setShowModal] = useState(true);
   const [addName, setAddName] = useState('');
-  const [error, setError] = useState(false);
-  const { dispatch } = useViewContext();
+  const [errorName, setErrorName] = useState(false);
+  const [errorAddHighScore, setErrorAddHighScore] = useState(false);
 
   const addScore = async () => {
     try {
-      const data = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/highscores`,
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            name: addName,
-            score,
-          }),
-          headers: {
-            'Content-type': 'application/json; charset=UTF-8',
-          },
-        }
-      );
-      console.log(`Successful: ${data}`);
+      await fetch(`${process.env.REACT_APP_API_URL}/api/highscores`, {
+        method: 'POST',
+        body: JSON.stringify({
+          name: addName,
+          score,
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      });
+      setAddName('');
+      setShowModal(false);
+      setErrorAddHighScore(false);
       dispatch({ type: ViewActionType.SET_HOME });
     } catch {
-      console.log('error adding high score');
+      setErrorAddHighScore(true);
+      // Todo: Send error to sentry.io
     }
   };
 
   const addHighScore = () => {
     if (addName.length < 3 || addName.length > 10) {
-      setError(true);
+      setErrorName(true);
     } else {
       addScore();
-      setAddName('');
-      setShowModal(false);
     }
   };
 
   const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAddName(e.target.value);
-    setError(false);
+    setErrorName(false);
   };
 
   return (
@@ -79,7 +79,7 @@ const AddHighScoreModal = ({ score }: { score: number }) => {
       }}
     >
       <Fade in={showModal}>
-        <Stack sx={style}>
+        <Stack sx={style} spacing={2}>
           <Typography
             id="transition-modal-title"
             variant="h6"
@@ -89,7 +89,7 @@ const AddHighScoreModal = ({ score }: { score: number }) => {
             Add Your High Score!
           </Typography>
           <TextField
-            error={error}
+            error={errorName}
             helperText="Name must be between 3 and 10 characters"
             value={addName}
             label="Name"
@@ -100,6 +100,11 @@ const AddHighScoreModal = ({ score }: { score: number }) => {
           <Button onClick={addHighScore} variant="contained">
             Submit
           </Button>
+          {errorAddHighScore && (
+            <Alert severity="error">
+              There was an error adding your highscore. Please try again.
+            </Alert>
+          )}
         </Stack>
       </Fade>
     </Modal>

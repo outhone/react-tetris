@@ -39,7 +39,7 @@ const Tetris = () => {
   const { score, setScore, rows, setRows, level, setLevel } =
     useGameStatus(rowsCleared);
 
-  // Fetch highscores from database, don't really need to use react query for this
+  // Fetch 5th highscore from database, don't really need to use react query for this
   useEffect(() => {
     if (gameOver) {
       const fetchMinScore = async () => {
@@ -52,14 +52,10 @@ const Tetris = () => {
             setShowHighScoreModal(true);
           }
         } catch {
-          // Log Error
+          // Todo: Send error to sentry.io
         }
       };
-      try {
-        fetchMinScore();
-      } catch {
-        // Log Error
-      }
+      fetchMinScore();
     }
   }, [gameOver]);
 
