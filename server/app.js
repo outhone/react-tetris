@@ -1,3 +1,6 @@
+/*
+Unused file, but keeping here for future references
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -43,3 +46,4 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
+*/
