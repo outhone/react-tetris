@@ -3,26 +3,21 @@ import { useState } from 'react';
 import { CUSTOM_SHAPES } from '../../utils/shapes';
 
 // ToDo: UI for shape selector
-// ToDo: Save only letters and not full object
 
 const ShapeSelector = () => {
   const [selected, setSelected] = useState(
-    JSON.parse(localStorage.getItem('settings') || '{}')
+    JSON.parse(sessionStorage.getItem('custom_shapes') || '[]')
   );
 
   const onSelected = (opt: string, e: React.MouseEvent<HTMLElement>) => {
-    if (Object.hasOwn(selected, opt)) {
-      const newSelected = { ...selected };
-      delete newSelected[opt as keyof typeof selected];
+    if (selected.indexOf(opt) < 0) {
+      const newSelected = [...selected, opt];
       setSelected(newSelected);
-      localStorage.setItem('settings', JSON.stringify(newSelected));
+      sessionStorage.setItem('custom_shapes', JSON.stringify(newSelected));
     } else {
-      const newSelected = {
-        ...selected,
-        [opt]: CUSTOM_SHAPES[opt as keyof typeof CUSTOM_SHAPES],
-      };
+      const newSelected = selected.filter((item: string) => item !== opt);
       setSelected(newSelected);
-      localStorage.setItem('settings', JSON.stringify(newSelected));
+      sessionStorage.setItem('custom_shapes', JSON.stringify(newSelected));
     }
     e.currentTarget.blur();
   };
@@ -35,7 +30,7 @@ const ShapeSelector = () => {
             type="button"
             key={shape}
             onClick={(e) => onSelected(shape, e)}
-            className={Object.hasOwn(selected, shape) ? 'selected' : ''}
+            className={selected.indexOf(shape) > -1 ? 'selected' : ''}
           >
             {shape}
           </button>

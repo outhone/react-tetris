@@ -71,11 +71,18 @@ export const CUSTOM_SHAPES = {
 
 export const ALL_SHAPES = { ...SHAPES, ...CUSTOM_SHAPES };
 
+// ToDo: Optimize this function, no need to always get customShapes and calculating shapes
 export const randomShape = () => {
-  const customShapes = JSON.parse(localStorage.getItem('settings'));
-  // Todo: Use letters to get all shapes instead of using full object
-  const allShapes = customShapes ? { ...SHAPES, ...customShapes } : SHAPES;
-  const shapes = `IJLOSTZ${customShapes ? Object.keys(customShapes) : ''}`;
+  const customShapes =
+    JSON.parse(sessionStorage.getItem('custom_shapes')) || [];
+  const allShapes = { ...SHAPES };
+  let shapes = 'IJLOSTZ';
+
+  customShapes.forEach((shape) => {
+    allShapes[shape] = CUSTOM_SHAPES[shape];
+    shapes += shape;
+  });
+
   const randShape = shapes[Math.floor(Math.random() * shapes.length)];
   return allShapes[randShape];
 };
