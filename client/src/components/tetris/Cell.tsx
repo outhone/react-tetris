@@ -1,4 +1,4 @@
-import { SHAPES } from '../../utils/shapes';
+import { ALL_SHAPES } from '../../utils/shapes';
 import type { StyledCellType, CellType } from './types';
 
 const StyledCell = ({ type, color }: StyledCellType) => (
@@ -17,7 +17,7 @@ const StyledCell = ({ type, color }: StyledCellType) => (
 );
 
 const Cell = ({ type }: CellType) => (
-  <StyledCell type={type} color={SHAPES[type].color} />
+  <StyledCell type={type} color={ALL_SHAPES[type].color} />
 );
 
 export default Cell;

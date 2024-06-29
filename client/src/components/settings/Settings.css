@@ -1,0 +1,25 @@
+.selectGroupContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.optionsGridContainer {
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fill, 250px);
+  grid-auto-rows: minmax(250px, auto);
+
+  > button {
+    border-radius: 3px;
+    border-width: 1px;
+
+    &.selected {
+      border-color: green;
+    }
+    
+    &:hover,
+    &:focus {
+      border-color: blue;
+    }
+  }
+}

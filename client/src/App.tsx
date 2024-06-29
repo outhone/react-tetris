@@ -8,10 +8,12 @@ import LoadingIndicator from './components/common/LoadingIndicator';
 
 const Home = lazy(() => import('./components/home/Home'));
 const Tetris = lazy(() => import('./components/tetris/Tetris'));
+const Settings = lazy(() => import('./components/settings/Settings'));
 
 const PAGES = {
   home: Home,
   'single-game': Tetris,
+  settings: Settings,
 };
 
 const App = () => {

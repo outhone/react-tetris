@@ -9,14 +9,16 @@ import React, {
 export enum ViewActionType {
   SET_HOME,
   SET_SINGLE_GAME,
+  SET_SETTINGS,
 }
 
 type Action =
   | { type: ViewActionType.SET_HOME }
-  | { type: ViewActionType.SET_SINGLE_GAME };
+  | { type: ViewActionType.SET_SINGLE_GAME }
+  | { type: ViewActionType.SET_SETTINGS };
 
 type ViewState = {
-  view: 'home' | 'single-game';
+  view: 'home' | 'single-game' | 'settings';
 };
 
 type ViewContextType = {
@@ -34,6 +36,8 @@ const reducer = (state: ViewState, action: Action): ViewState => {
       return { ...state, view: 'home' };
     case ViewActionType.SET_SINGLE_GAME:
       return { ...state, view: 'single-game' };
+    case ViewActionType.SET_SETTINGS:
+      return { ...state, view: 'settings' };
     default:
       return state;
   }

@@ -58,8 +58,24 @@ export const SHAPES = {
   },
 };
 
+export const CUSTOM_SHAPES = {
+  U: {
+    shape: [
+      ['U', 0, 'U'],
+      ['U', 'U', 'U'],
+      [0, 0, 0],
+    ],
+    color: '255, 20, 147',
+  },
+};
+
+export const ALL_SHAPES = { ...SHAPES, ...CUSTOM_SHAPES };
+
 export const randomShape = () => {
-  const shapes = 'IJLOSTZ';
+  const customShapes = JSON.parse(localStorage.getItem('settings'));
+  // Todo: Use letters to get all shapes instead of using full object
+  const allShapes = customShapes ? { ...SHAPES, ...customShapes } : SHAPES;
+  const shapes = `IJLOSTZ${customShapes ? Object.keys(customShapes) : ''}`;
   const randShape = shapes[Math.floor(Math.random() * shapes.length)];
-  return SHAPES[randShape];
+  return allShapes[randShape];
 };
