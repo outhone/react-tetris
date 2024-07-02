@@ -12,7 +12,6 @@ REACT_APP_URL = Url of the client (react-tetris).
 Future Features:
 - Add Docker to spin up server and client
 - Add better eslint file for server
-- Add settings for additional custom shapes to be used
 - Allow starting at desired level
 - Add websockets to make it 2 player game
 - Add unit testing

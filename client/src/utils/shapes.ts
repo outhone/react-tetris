@@ -1,3 +1,10 @@
+type ShapeType = {
+  [key: string | number]: {
+    shape: (string | number)[][];
+    color: string;
+  };
+};
+
 export const SHAPES = {
   0: { shape: [[0]], color: '0, 0, 0' },
   I: {
@@ -67,18 +74,46 @@ export const CUSTOM_SHAPES = {
     ],
     color: '255, 20, 147',
   },
+  W: {
+    shape: [
+      [0, 0, 'W'],
+      [0, 'W', 'W'],
+      ['W', 'W', 0],
+    ],
+    color: '255, 127, 0',
+  },
+  B: {
+    shape: [
+      ['B', 0, 0],
+      ['B', 'B', 0],
+      ['B', 'B', 0],
+    ],
+    color: '0, 255, 127',
+  },
+  A: {
+    shape: [
+      [0, 'A', 0],
+      [0, 0, 0],
+    ],
+    color: '255, 255, 241',
+  },
 };
 
 export const ALL_SHAPES = { ...SHAPES, ...CUSTOM_SHAPES };
 
+export type ShapeKeys = keyof typeof SHAPES;
+export type CustomShapeKeys = keyof typeof CUSTOM_SHAPES;
+export type AllShapeKeys = ShapeKeys | CustomShapeKeys;
+
 // ToDo: Optimize this function, no need to always get customShapes and calculating shapes
 export const randomShape = () => {
-  const customShapes =
-    JSON.parse(sessionStorage.getItem('custom_shapes')) || [];
-  const allShapes = { ...SHAPES };
+  const customShapes = JSON.parse(
+    sessionStorage.getItem('custom_shapes') || '[]'
+  );
+  const allShapes: ShapeType = { ...SHAPES };
   let shapes = 'IJLOSTZ';
 
-  customShapes.forEach((shape) => {
+  customShapes.forEach((shape: CustomShapeKeys) => {
     allShapes[shape] = CUSTOM_SHAPES[shape];
     shapes += shape;
   });

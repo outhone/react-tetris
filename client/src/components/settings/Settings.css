@@ -1,25 +1,42 @@
+.settingsContainer {
+  max-width: 400px;
+  margin: auto;
+}
+
 .selectGroupContainer {
   display: flex;
   flex-direction: column;
+  margin: 2rem auto;
 }
 
 .optionsGridContainer {
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: repeat(auto-fill, 250px);
-  grid-auto-rows: minmax(250px, auto);
+  grid-template-columns: 1fr 1fr;
 
   > button {
-    border-radius: 3px;
-    border-width: 1px;
+    cursor: pointer;
+    border-radius: 5px;
+    border-width: 3px;
+    background: rgba(0,0,0,.8);
+    padding: 1rem;
 
     &.selected {
-      border-color: green;
+      border-color: rgb(102, 255, 0);
     }
     
     &:hover,
     &:focus {
-      border-color: blue;
+      border-color: rgb(153, 0 , 255);
+    }
+
+    .shapeContainer {
+      display: grid;
+      width: fit-content;
+      margin: auto;
+      grid-template-rows: repeat(3, 50px);
+      grid-template-columns: repeat(3, 50px);
+      grid-gap: 1px;
     }
   }
 }

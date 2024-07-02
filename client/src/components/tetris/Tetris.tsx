@@ -114,8 +114,8 @@ const Tetris = () => {
       } else {
         // Jump to the bottom of the stage
         // Set collide to true if you don't want users to have chance to rotate or move the shape after the absolute drop
-        updatePlayer({ x: 0, y: i - 1, collided: false });
         setDropTime(1000 / (level + 1) + 200);
+        updatePlayer({ x: 0, y: i - 1, collided: false });
         break;
       }
     }

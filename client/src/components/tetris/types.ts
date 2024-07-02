@@ -1,10 +1,7 @@
-import { SHAPES, CUSTOM_SHAPES } from '../../utils/shapes';
-
-export type ShapeType = keyof typeof SHAPES;
-export type CustomShapeType = keyof typeof CUSTOM_SHAPES;
+import { AllShapeKeys } from '../../utils/shapes';
 
 export type CellType = {
-  type: ShapeType | CustomShapeType;
+  type: AllShapeKeys;
 };
 
 export interface StyledCellType extends CellType {
@@ -12,5 +9,5 @@ export interface StyledCellType extends CellType {
 }
 
 export type StageType = {
-  stage: [ShapeType, string][][];
+  stage: [AllShapeKeys, string][][];
 };
