@@ -111,13 +111,12 @@ export const randomShape = () => {
     sessionStorage.getItem('custom_shapes') || '[]'
   );
   const allShapes: ShapeType = { ...SHAPES };
-  let shapes = 'IJLOSTZ';
 
   customShapes.forEach((shape: CustomShapeKeys) => {
     allShapes[shape] = CUSTOM_SHAPES[shape];
-    shapes += shape;
   });
 
+  const shapes = Object.keys(allShapes).filter((key) => key !== '0');
   const randShape = shapes[Math.floor(Math.random() * shapes.length)];
   return allShapes[randShape];
 };
