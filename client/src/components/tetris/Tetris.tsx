@@ -60,7 +60,7 @@ const Tetris = () => {
   }, [gameOver]);
 
   const moveLeftRight = (dir: number) => {
-    if (!checkCollision(player, stage, { x: dir, y: 0 })) {
+    if (!checkCollision(player, stage, { x: dir, y: 0 }) && !player.collided) {
       updatePlayer({ x: dir, y: 0, collided: false });
     }
   };
@@ -83,7 +83,7 @@ const Tetris = () => {
       setDropTime(1000 / (level + 1) + 200);
     }
 
-    if (!checkCollision(player, stage, { x: 0, y: 1 })) {
+    if (!checkCollision(player, stage, { x: 0, y: 1 }) && !player.collided) {
       updatePlayer({ x: 0, y: 1, collided: false });
     } else {
       if (player.pos.y < 1) {
