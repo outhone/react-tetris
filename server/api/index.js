@@ -16,7 +16,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors({ origin: [process.env.REACT_APP_URL] }));
+app.use(cors({ origin: process.env.REACT_APP_URL.split(',') }));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
